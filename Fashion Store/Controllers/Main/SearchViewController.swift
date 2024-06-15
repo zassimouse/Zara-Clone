@@ -40,7 +40,6 @@ class SearchViewController: UIViewController {
         collectionView.dataSource = self
         
         fetchData()
-        
         self.setupUI()
                 
     }

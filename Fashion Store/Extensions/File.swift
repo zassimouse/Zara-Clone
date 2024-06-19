@@ -53,4 +53,26 @@ extension UIFont {
 }
 
 
+extension UIButton {
+    
+    func addTopBorder(with color: UIColor, andWidth borderWidth: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: borderWidth)
+        self.layer.addSublayer(border)
+    }
+    
+    func addBottomBorder(with color: UIColor, andWidth borderWidth: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - borderWidth, width: self.frame.size.width, height: borderWidth)
+        self.layer.addSublayer(border)
+    }
+    
+    func addTopAndBottomBorders(with color: UIColor, andWidth borderWidth: CGFloat) {
+        self.addTopBorder(with: color, andWidth: borderWidth)
+        self.addBottomBorder(with: color, andWidth: borderWidth)
+    }
+}
+
 

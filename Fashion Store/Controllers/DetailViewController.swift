@@ -133,9 +133,7 @@ class DetailViewController: UIViewController {
         imageViews[2].translatesAutoresizingMaskIntoConstraints = false
         imageViews[3].translatesAutoresizingMaskIntoConstraints = false
         imageViews[4].translatesAutoresizingMaskIntoConstraints = false
-
         
-    
         NSLayoutConstraint.activate([
             imageViews[0].topAnchor.constraint(equalTo: self.contentView.topAnchor),
             imageViews[0].leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
@@ -168,12 +166,9 @@ class DetailViewController: UIViewController {
             imageViews[4].widthAnchor.constraint(equalTo: self.contentView.widthAnchor),
             
             self.imageViews[4].bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-            
-
         ])
         
         self.view.bringSubviewToFront(infoView)
-        
     }
     
     // MARK: - Selectors

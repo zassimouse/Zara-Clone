@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "accountIcon.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "loewe-logo-ECB1A578F6-seeklogo.com.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

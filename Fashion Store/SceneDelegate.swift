@@ -20,17 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
      func checkAuthentication() {
         print("check auth\n\n")
-        if Auth.auth().currentUser == nil {
-//            self.goToController(with: LoginViewController())
-            let vc = UINavigationController(rootViewController: LoginViewController())
-            vc.modalPresentationStyle = .fullScreen
-            window?.rootViewController = vc
-        } else {
-//            self.goToController(with: MainTabBarViewController())
-            let vc = MainTabBarViewController()
-            vc.modalPresentationStyle = .fullScreen
-            window?.rootViewController = vc
-        }
+         let vc = MainTabBarViewController()
+         vc.modalPresentationStyle = .fullScreen
+         window?.rootViewController = vc
+//        if Auth.auth().currentUser == nil {
+////            self.goToController(with: LoginViewController())
+//            let vc = UINavigationController(rootViewController: LoginViewController())
+//            vc.modalPresentationStyle = .fullScreen
+//            window?.rootViewController = vc
+//        } else {
+////            self.goToController(with: MainTabBarViewController())
+//            let vc = MainTabBarViewController()
+//            vc.modalPresentationStyle = .fullScreen
+//            window?.rootViewController = vc
+//        }
     }
     
     private func setupWindow(with scene: UIScene) {

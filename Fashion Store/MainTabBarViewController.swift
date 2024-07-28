@@ -26,7 +26,7 @@ class MainTabBarViewController: UITabBarController {
         view.backgroundColor = .systemBackground
         tabBar.tintColor = .label
         
-        let lineView = UIView(frame: CGRect(x: 0, y: 0, width: tabBar.frame.size.width, height: 1))
+        let lineView = UIView(frame: CGRect(x: 0, y: 0, width: tabBar.frame.size.width, height: 0.5))
         lineView.backgroundColor = UIColor.label
         tabBar.addSubview(lineView)
         
@@ -35,7 +35,7 @@ class MainTabBarViewController: UITabBarController {
         tabBar.items?[1].setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Arial", size: 20) ?? .thinFont, NSAttributedString.Key.backgroundColor: UIColor(.red)], for: .normal)
         
    
-        let vc1 = UINavigationController(rootViewController: HomeViewController())
+        let vc1 = UINavigationController(rootViewController: GalleryViewController())
         let vc2 = UINavigationController(rootViewController: HomeViewController())
         let vc3 = UINavigationController(rootViewController: SearchViewController())
         let vc4 = UINavigationController(rootViewController: BasketViewController())

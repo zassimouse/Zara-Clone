@@ -74,13 +74,7 @@ class HomeViewController: UIViewController, CubeTransitionViewDelegate {
         transitionView.delegate = self as CubeTransitionViewDelegate
           
         self.view.addSubview(transitionView)
-          //setupUI()
         
         transitionView.reloadData();
       }
-    
-    
-
-    
-
 }

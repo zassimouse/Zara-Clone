@@ -10,6 +10,10 @@ import UIKit
 
 extension UIFont {
     
+    static public var menuFont: UIFont {
+        return UIFont.systemFont(ofSize: 14, weight: .light)
+    }
+    
     static public var thinFont: UIFont {
         return UIFont.systemFont(ofSize: 11, weight: .light)
     }
@@ -23,7 +27,7 @@ extension UIFont {
     }
     
     static public var infoFont: UIFont {
-        return UIFont.systemFont(ofSize: 14, weight: .light)
+        return UIFont.systemFont(ofSize: 16, weight: .light)
     }
     
     static public var infoTagFont: UIFont {
@@ -53,7 +57,7 @@ extension UIFont {
 }
 
 
-extension UIButton {
+extension UIView {
     
     func addTopBorder(with color: UIColor, andWidth borderWidth: CGFloat) {
         let border = CALayer()
@@ -76,3 +80,38 @@ extension UIButton {
 }
 
 
+enum Border: Int {
+    case top = 0
+    case bottom
+    case right
+    case left
+}
+
+extension UIView {
+    func addBorder(for side: Border, withColor color: UIColor, borderWidth: CGFloat) -> CALayer {
+       let borderLayer = CALayer()
+       borderLayer.backgroundColor = color.cgColor
+
+       let xOrigin: CGFloat = (side == .right ? frame.width - borderWidth : 0)
+       let yOrigin: CGFloat = (side == .bottom ? frame.height - borderWidth : 0)
+
+       let width: CGFloat = (side == .right || side == .left) ? borderWidth : frame.width
+       let height: CGFloat = (side == .top || side == .bottom) ? borderWidth : frame.height
+
+       borderLayer.frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
+       layer.addSublayer(borderLayer)
+       return borderLayer
+    }
+}
+
+extension CALayer {
+    func updateBorderLayer(for side: Border, withViewFrame viewFrame: CGRect) {
+        let xOrigin: CGFloat = (side == .right ? viewFrame.width - frame.width : 0)
+        let yOrigin: CGFloat = (side == .bottom ? viewFrame.height - frame.height : 0)
+
+        let width: CGFloat = (side == .right || side == .left) ? frame.width : viewFrame.width
+        let height: CGFloat = (side == .top || side == .bottom) ? frame.height : viewFrame.height
+
+        frame = CGRect(x: xOrigin, y: yOrigin, width: width, height: height)
+    }
+}

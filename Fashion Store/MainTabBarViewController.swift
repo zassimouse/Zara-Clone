@@ -37,17 +37,17 @@ class MainTabBarViewController: UITabBarController {
    
         let vc1 = UINavigationController(rootViewController: GalleryViewController())
         let vc2 = UINavigationController(rootViewController: HomeViewController())
-        let vc3 = UINavigationController(rootViewController: SearchViewController())
+        let vc3 = UINavigationController(rootViewController: MenuViewController())
         let vc4 = UINavigationController(rootViewController: BasketViewController())
         let vc5 = UINavigationController(rootViewController: AccountViewController())
 
         
         vc1.tabBarItem.image = UIImage(named: "homeIcon")
         vc2.tabBarItem.image = UIImage(named: "searchIcon")
+        vc3.title = "MENU"
         vc4.tabBarItem.image = UIImage(named: "basketIcon")
         vc5.tabBarItem.image = UIImage(named: "accountIcon")
         
-        vc3.title = "MENU"
 
 //        vc1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -15)
 //        vc2.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -15)

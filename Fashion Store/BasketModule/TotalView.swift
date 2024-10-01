@@ -14,27 +14,30 @@ class TotalView: UIView {
     
     // MARK: - UI Components
     private let totalLabel: UILabel = {
-        let lb = UILabel()
-        lb.text = "TOTAL"
-        lb.font = .boldFont
-        return lb
+        let label = UILabel()
+        label.text = "TOTAL"
+        label.font = .boldFont
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let numberLabel: UILabel = {
-        let lb = UILabel()
-        lb.text = "109.00 BYN"
-        lb.font = .boldFont
-        return lb
+        let label = UILabel()
+        label.text = "109.00 BYN"
+        label.font = .boldFont
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let vatIncludedLabel: UILabel = {
-        let lb = UILabel()
-        lb.text = "VAT INCLUDED"
-        lb.font = .thinFont
-        return lb
+        let label = UILabel()
+        label.text = "VAT INCLUDED"
+        label.font = .thinFont
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
-    
-    private let continueButton = FilledButton(title: "CONTINUE")
+        
+    private let continueButton = FilledButton(title: "CONTINUE", font: .thinFont)
     
     // MARK: - LifeCycle
     override init(frame: CGRect) {
@@ -49,18 +52,13 @@ class TotalView: UIView {
     // MARK: - UI Setup
     private func setupUI() {
         
-        backgroundColor = .systemGreen
+        backgroundColor = .systemBackground
         
         self.addSubview(totalLabel)
         self.addSubview(numberLabel)
         self.addSubview(vatIncludedLabel)
         self.addSubview(continueButton)
-        
-        totalLabel.translatesAutoresizingMaskIntoConstraints = false
-        numberLabel.translatesAutoresizingMaskIntoConstraints = false
-        vatIncludedLabel.translatesAutoresizingMaskIntoConstraints = false
-        continueButton.translatesAutoresizingMaskIntoConstraints = false
-        
+                
         NSLayoutConstraint.activate([
             totalLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             totalLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
@@ -75,9 +73,6 @@ class TotalView: UIView {
             continueButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             continueButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             continueButton.heightAnchor.constraint(equalToConstant: 44)
-            
-            
-            
         ])
     }
     

@@ -54,7 +54,7 @@ class InfoView: UIView {
         self.layoutIfNeeded()
                 
                 // Add top and bottom borders to the button
-        addButton.addTopAndBottomBorders(with: .red, andWidth: 2.0)
+//        addButton.addTopAndBottomBorders(with: .red, andWidth: 2.0)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

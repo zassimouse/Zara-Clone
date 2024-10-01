@@ -11,7 +11,7 @@ class GenderView: UILabel {
     
     var currentItem = 0
     
-    var labels: [GenderLabel] = [GenderLabel(with: "WOMAN"), GenderLabel(with: "MAN"), GenderLabel(with: "KIDS")]
+    var labels: [GenderLabel] = [GenderLabel(), GenderLabel(), GenderLabel()]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,27 +22,28 @@ class GenderView: UILabel {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-//        stackView.distribution = .fillEqually
-//        stackView.alignment = .center
+        stackView.distribution = .fillEqually//
+        stackView.alignment = .center//
         stackView.spacing = 30
         stackView.isUserInteractionEnabled = true
         
         labels.forEach { label in
+            
+            
             stackView.addArrangedSubview(label)
             let w = label.intrinsicContentSize.width + 10
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
-            tapGesture.numberOfTapsRequired = 2
-            tapGesture.numberOfTouchesRequired = 1
-            
-            tapGesture.numberOfTapsRequired = 2
-            tapGesture.numberOfTouchesRequired = 1
+//            tapGesture.numberOfTapsRequired = 2
+//            tapGesture.numberOfTouchesRequired = 1
             
             label.addGestureRecognizer(tapGesture)
             label.isUserInteractionEnabled = true
             
             
             label.widthAnchor.constraint(equalToConstant: w).isActive = true
+            label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
         }
         labels[0].onBold()
         

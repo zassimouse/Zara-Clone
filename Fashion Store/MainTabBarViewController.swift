@@ -13,6 +13,7 @@ class MainTabBarViewController: UITabBarController {
     
     // MARK: - UI Components
     var tabBarItem1 = UITabBarItem()
+
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -36,9 +37,9 @@ class MainTabBarViewController: UITabBarController {
         
    
         let vc1 = UINavigationController(rootViewController: GalleryViewController())
-        let vc2 = UINavigationController(rootViewController: HomeViewController())
+        let vc2 = UINavigationController(rootViewController: SearchViewController())
         let vc3 = UINavigationController(rootViewController: MenuViewController())
-        let vc4 = UINavigationController(rootViewController: BasketViewController())
+        let vc4 = UINavigationController(rootViewController: TopTabBarController())
         let vc5 = UINavigationController(rootViewController: AccountViewController())
 
         
@@ -46,8 +47,8 @@ class MainTabBarViewController: UITabBarController {
         vc2.tabBarItem.image = UIImage(named: "searchIcon")
         vc3.title = "MENU"
         vc4.tabBarItem.image = UIImage(named: "basketIcon")
+        vc4.hidesBottomBarWhenPushed = true
         vc5.tabBarItem.image = UIImage(named: "accountIcon")
-        
 
 //        vc1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -15)
 //        vc2.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -15)

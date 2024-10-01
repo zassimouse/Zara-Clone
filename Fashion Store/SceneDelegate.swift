@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
      func checkAuthentication() {
         print("check auth\n\n")
-         let vc = MainTabBarViewController()
+         let vc = CustomTabBarController()
          vc.modalPresentationStyle = .fullScreen
          window?.rootViewController = vc
 //        if Auth.auth().currentUser == nil {

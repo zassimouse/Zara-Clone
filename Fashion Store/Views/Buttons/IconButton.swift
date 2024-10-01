@@ -14,6 +14,8 @@ class IconButton: UIButton {
         case share = "square.and.arrow.up"
         case bookmark = "bookmark"
         case exit = "xmark"
+        case minus = "minus"
+        case plus = "plus"
     }
 
     init(buttonType: ButtonType) {
@@ -23,6 +25,8 @@ class IconButton: UIButton {
         self.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(font: .deleteButtonFont), forImageIn: .normal)
         self.backgroundColor = .clear
         self.tintColor = .label
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

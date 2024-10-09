@@ -21,7 +21,7 @@ class BorderedButton: UIButton {
         self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.label.cgColor
         
-        self.backgroundColor = .systemBackground
+//        self.backgroundColor = .systemBackground
         let titleColor: UIColor = .label
         self.setTitleColor(titleColor, for: .normal)
         

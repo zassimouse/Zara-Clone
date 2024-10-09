@@ -14,6 +14,7 @@ class MyLabel: UILabel {
         self.font = isSmall ? .smallLabelFont : .largeLabelFont
         self.text = isSmall ? text : text.uppercased()
         self.textAlignment = .left
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

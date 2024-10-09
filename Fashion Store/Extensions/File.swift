@@ -23,7 +23,7 @@ extension UIFont {
     }
     
     static public var boldFont: UIFont {
-        return UIFont.systemFont(ofSize: 11, weight: .bold)
+        return UIFont.systemFont(ofSize: 12, weight: .bold)
     }
     
     static public var infoFont: UIFont {
@@ -42,6 +42,7 @@ extension UIFont {
     static public var smallLabelFont: UIFont {
         return UIFont.systemFont(ofSize: 12, weight: .light)
     }
+    
     
     static public var buttonFont: UIFont {
         return UIFont.systemFont(ofSize: 12, weight: .light)

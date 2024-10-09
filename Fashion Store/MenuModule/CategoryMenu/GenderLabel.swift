@@ -16,6 +16,11 @@ class GenderLabel: UILabel {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(_:)))
         addGestureRecognizer(tapGesture)
         font = .systemFont(ofSize: 17)
+        
+        let maxFont = UIFont.systemFont(ofSize: 17, weight: .bold)
+        let maxSize = (text! as NSString).size(withAttributes: [.font: maxFont])
+        
+        widthAnchor.constraint(equalToConstant: maxSize.width + 10).isActive = true
     }
     
     func onBold() {

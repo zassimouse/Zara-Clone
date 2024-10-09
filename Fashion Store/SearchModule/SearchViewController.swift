@@ -44,7 +44,4 @@ class SearchViewController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         searchField.becomeFirstResponder()
     }
-    
-    
-
 }

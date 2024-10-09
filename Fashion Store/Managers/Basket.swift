@@ -21,14 +21,14 @@ class Basket {
     public func loadItems() -> [Item] {
         var items: [Item] = []
         basketItems.forEach { basketItem in
-            ItemService().fetchItem(itemId: basketItem.id) { result in
-                switch result {
-                case .success(let item):
-                    items.append(item)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
+//            ItemService().fetchItem(itemId: basketItem.id) { result in
+//                switch result {
+//                case .success(let item):
+//                    items.append(item)
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                }
+//            }
         }
         return items
     }

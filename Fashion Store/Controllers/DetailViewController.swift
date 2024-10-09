@@ -11,6 +11,7 @@ import SDWebImage
 class DetailViewController: UIViewController {
     
     // MARK: - Variables
+    let detailSheetViewContrroller = DetailSheetViewController()
     
     // MARK: - UI Components
     private var scrollView: UIScrollView = {
@@ -20,9 +21,9 @@ class DetailViewController: UIViewController {
     }()
     
     private var contentView: UIView = {
-        let v = UIView()
-        v.backgroundColor = .systemBackground
-        return v
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        return view
     }()
     
     private var imageViews: [UIImageView] = {
@@ -41,18 +42,27 @@ class DetailViewController: UIViewController {
         v.backgroundColor = .systemBackground
         return v
     }()
-
-    private let infoView = InfoView()
     
     private let backButton = IconButton(buttonType: .back)
     private let shareButton = IconButton(buttonType: .share)
     private let bookMarkButton = IconButton(buttonType: .bookmark)
     
-    
     // MARK: - LifeCycle
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        hidesBottomBarWhenPushed = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureSheet()
+
+
         backButton.addTarget(self , action: #selector(goBack), for: .touchUpInside)
         
         view.backgroundColor = .systemBackground
@@ -63,7 +73,7 @@ class DetailViewController: UIViewController {
         ]
         
         setupUI()
-        // Do any additional setup after loading the view.
+
     }
     
     public func configure(with item: Item) {
@@ -78,23 +88,61 @@ class DetailViewController: UIViewController {
         imageViews[3].sd_setImage(with: url)
         imageViews[4].sd_setImage(with: url)
         
-        infoView.configure(with: item)
+        detailSheetViewContrroller.configure(with: item)
+    }
+    
+    
+    
+    
+    private func configureSheet() {
+        let navVC = detailSheetViewContrroller
+//        let navVC = UINavigationController(rootViewController: detailSheetViewContrroller)
+        navVC.isModalInPresentation = true
 
+        // Ensure the view is laid out
+        navVC.view.layoutIfNeeded()
+
+        // Define the large detent to stop right at the tab bar's top
+        let largeDetent = UISheetPresentationController.Detent.custom(
+            identifier: UISheetPresentationController.Detent.Identifier("largeDetent"),
+            resolver: { _ in
+                let height = self.view.frame.height
+                let navBar = self.topBarHeight
+                return height - navBar - self.view.safeAreaInsets.bottom
+            }
+        )
+
+        // Define the small detent at a fixed height
+        let smallDetent = UISheetPresentationController.Detent.custom(
+            identifier: UISheetPresentationController.Detent.Identifier("smallDetent"),
+            resolver: { _ in
+                return 200 - self.view.safeAreaInsets.bottom
+            }
+        )
+
+        // Configure the sheet presentation controller
+        if let sheet = navVC.sheetPresentationController {
+            sheet.preferredCornerRadius = 0
+            sheet.detents = [smallDetent, largeDetent]
+            sheet.largestUndimmedDetentIdentifier = UISheetPresentationController.Detent.Identifier("largeDetent")
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+
+        // Present the navigation controller modally
+        navigationController?.present(navVC, animated: true)
     }
 
-   
-    
     // MARK: - UI Setup
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
         self.view.addSubview(scrollView)
-        self.view.addSubview(infoView)
+//        self.view.addSubview(infoView)
         self.scrollView.addSubview(contentView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        infoView.translatesAutoresizingMaskIntoConstraints = false
+//        infoView.translatesAutoresizingMaskIntoConstraints = false
         
         let hConst = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
 //        let hConst = contentView.heightAnchor.constraint(equalToConstant: 200)
@@ -116,10 +164,10 @@ class DetailViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
             
-            infoView.heightAnchor.constraint(equalToConstant: 200),
-            infoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            infoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            infoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//            infoView.heightAnchor.constraint(equalToConstant: 200),
+//            infoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            infoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            infoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
         
         self.view.addSubview(imageViews[0])
@@ -168,11 +216,18 @@ class DetailViewController: UIViewController {
             self.imageViews[4].bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
         
-        self.view.bringSubviewToFront(infoView)
+//        self.view.bringSubviewToFront(infoView)
     }
     
     // MARK: - Selectors
     @objc private func goBack() {
         navigationController?.popViewController(animated: true)
+        self.dismiss(animated: false, completion: nil)
+
     }
+    
+//    private func closeSheet() {
+//        // Dismiss the presented navigation controller
+//        self.presentingViewController?.dismiss(animated: true, completion: nil)
+//    }
 }

@@ -24,7 +24,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         let vc2 = UINavigationController(rootViewController: SearchViewController())
         let vc3 = UINavigationController(rootViewController: MenuViewController())
         let vc4 = UINavigationController(rootViewController: TopTabBarController())
-        let vc5 = UINavigationController(rootViewController: AccountViewController())
+        let vc5 = UINavigationController(rootViewController: Search1ViewController())
         
         vc1.tabBarItem.image = UIImage(named: "homeIcon")
         vc2.tabBarItem.image = UIImage(named: "searchIcon")

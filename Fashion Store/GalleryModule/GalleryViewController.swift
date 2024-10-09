@@ -41,6 +41,23 @@ class GalleryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Call fetchCategories and handle the result
+        CategoryManager.shared.fetchCategories { categories in
+            if let menCategories = categories["men"] {
+                print("Men Categories: \(menCategories)")
+            }
+
+            if let womenCategories = categories["women"] {
+                print("Women Categories: \(womenCategories)")
+            }
+
+            // You can now use menCategories and womenCategories to update your UI
+        }
+        
+        ItemService.shared.fetchAllItems { result in
+            print("fetched")
+        }
                 
         view.addSubview(collectionView)
         view.addSubview(logoImageView)

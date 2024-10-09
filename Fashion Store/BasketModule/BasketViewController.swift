@@ -18,10 +18,10 @@ class BasketViewController: UIViewController {
         UIImage(named: "5")!,
     ]
     
-    private var items: [Item] = [
-        Item(id: "aaa", title: "LINEN SHIRT", price: "120.00", imageURL: "https://static.zara.net/assets/public/4585/a10b/999a4cbb98d1/e37434d49e8c/05743531427-p/05743531427-p.jpg?ts=1720001437714&w=850"),
-        Item(id: "aaa", title: "LINEN SHIRT", price: "120.00", imageURL: "https://static.zara.net/assets/public/4585/a10b/999a4cbb98d1/e37434d49e8c/05743531427-p/05743531427-p.jpg?ts=1720001437714&w=850"),
-    ]
+//    private var items: [Item] = [
+//        Item(id: "aaa", title: "LINEN SHIRT", price: "120.00", imageURL: "https://static.zara.net/assets/public/4585/a10b/999a4cbb98d1/e37434d49e8c/05743531427-p/05743531427-p.jpg?ts=1720001437714&w=850"),
+//        Item(id: "aaa", title: "LINEN SHIRT", price: "120.00", imageURL: "https://static.zara.net/assets/public/4585/a10b/999a4cbb98d1/e37434d49e8c/05743531427-p/05743531427-p.jpg?ts=1720001437714&w=850"),
+//    ]
 
     
     // MARK: - UI Components

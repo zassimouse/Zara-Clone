@@ -87,18 +87,14 @@ extension Search1ViewController: UICollectionViewDataSource, UICollectionViewDel
     
     // How many different CollectionViewCells we have
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return items.count
     }
     // This is where we crate the cells
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.identifier, for: indexPath) as? CustomCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
 
-        
         if items.isEmpty {
             return UICollectionViewCell()
         }
@@ -107,7 +103,7 @@ extension Search1ViewController: UICollectionViewDataSource, UICollectionViewDel
         print(model)
         print("model\n")
         
-        cell.configure(name: model.title, price: model.price, imageURL: model.imageURL)
+        cell.configure(name: model.title, price: String(model.price), imageURL: model.imageURL)
         
         return cell
     }
@@ -135,9 +131,11 @@ extension Search1ViewController {
     // TODO: InsetForSectionAt 21:40
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
         let vc = DetailViewController()
+        vc.modalPresentationStyle = .fullScreen
         vc.configure(with: items[indexPath.row])
+        let nvc = UINavigationController(rootViewController: vc)        
+
         navigationController?.pushViewController(vc, animated: true)
     }
     

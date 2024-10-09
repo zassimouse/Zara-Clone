@@ -77,8 +77,7 @@ class InfoView: UIView {
     
     public func configure(with item: Item) {
         titleLabel.text = item.title
-        priceLabel.text = item.price
-        s = item.id
+        priceLabel.text = String(item.price)
     }
     
     private var s: String = ""

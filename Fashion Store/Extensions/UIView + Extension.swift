@@ -8,7 +8,16 @@
 import Foundation
 import UIKit
 
+extension UIView {
+    func addSubview(_ views: UIView...) {
+        views.forEach { addSubview($0) }
+    }
+}
+
 public extension UIView {
+    
+    
+
     
     enum ViewSide {
         case top

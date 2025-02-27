@@ -9,6 +9,12 @@ import UIKit
 
 class CustomTabBar: UITabBar, UITabBarControllerDelegate {
     
+    var currentIndex = 0 {
+        didSet {
+            moveIndicator(to: currentIndex)
+        }
+    }
+        
     private let indicatorShapeLayer = CAShapeLayer()
     
     override init(frame: CGRect) {
@@ -23,8 +29,9 @@ class CustomTabBar: UITabBar, UITabBarControllerDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        moveIndicator(to: 0)
+        moveIndicator(to: currentIndex)
     }
+    
     
     private func setupTabTar() {
         tintColor = .label
@@ -36,7 +43,6 @@ class CustomTabBar: UITabBar, UITabBarControllerDelegate {
 
 // MARK: Draw Line
 extension CustomTabBar {
-
     private func setupIndicator() {
         let path = createIndicatorPath(at: 0)
         indicatorShapeLayer.path = path.cgPath
@@ -51,7 +57,7 @@ extension CustomTabBar {
         let animation = CABasicAnimation(keyPath: "path")
         animation.fromValue = indicatorShapeLayer.path
         animation.toValue = path.cgPath
-        animation.duration = 0.3
+        animation.duration = 0.25
         animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 
         indicatorShapeLayer.add(animation, forKey: "moveIndicatorAnimation")
@@ -68,3 +74,6 @@ extension CustomTabBar {
         return path
     }
 }
+
+
+

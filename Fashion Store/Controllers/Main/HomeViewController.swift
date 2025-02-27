@@ -70,7 +70,7 @@ class HomeViewController: UIViewController, CubeTransitionViewDelegate {
           let frame: CGRect = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: guide ?? 100)
           
         transitionView = CubeTransitionInfiniteView.init(frame: frame)
-          
+        
         transitionView.delegate = self as CubeTransitionViewDelegate
           
         self.view.addSubview(transitionView)

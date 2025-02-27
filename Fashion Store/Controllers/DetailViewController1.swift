@@ -8,8 +8,8 @@
 import UIKit
 import SDWebImage
 
-class DetailViewController: UIViewController {
-    
+class DetailViewController1: UIViewController {
+        
     // MARK: - Variables
     let detailSheetViewContrroller = DetailSheetViewController()
     
@@ -44,6 +44,7 @@ class DetailViewController: UIViewController {
     }()
     
     private let backButton = IconButton(buttonType: .back)
+    private let closeButton = IconButton(buttonType: .exit)
     private let shareButton = IconButton(buttonType: .share)
     private let bookMarkButton = IconButton(buttonType: .bookmark)
     
@@ -57,11 +58,18 @@ class DetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        let bottomSheetVC = CustomBottomSheetViewController()
+        bottomSheetVC.modalPresentationStyle = .overFullScreen
+        self.present(bottomSheetVC, animated: false)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSheet()
-
+//        configureSheet()
 
         backButton.addTarget(self , action: #selector(goBack), for: .touchUpInside)
         
@@ -71,6 +79,10 @@ class DetailViewController: UIViewController {
             UIBarButtonItem(customView: shareButton),
             UIBarButtonItem(customView: bookMarkButton)
         ]
+        
+        self.navigationController!.navigationBar.barStyle = .black
+        self.navigationController!.navigationBar.isTranslucent = false
+
         
         setupUI()
 
@@ -96,27 +108,21 @@ class DetailViewController: UIViewController {
     
     private func configureSheet() {
         let navVC = detailSheetViewContrroller
-//        let navVC = UINavigationController(rootViewController: detailSheetViewContrroller)
         navVC.isModalInPresentation = true
-
-        // Ensure the view is laid out
         navVC.view.layoutIfNeeded()
 
-        // Define the large detent to stop right at the tab bar's top
         let largeDetent = UISheetPresentationController.Detent.custom(
             identifier: UISheetPresentationController.Detent.Identifier("largeDetent"),
             resolver: { _ in
                 let height = self.view.frame.height
-                let navBar = self.topBarHeight
-                return height - navBar - self.view.safeAreaInsets.bottom
+                return height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom
             }
         )
 
-        // Define the small detent at a fixed height
         let smallDetent = UISheetPresentationController.Detent.custom(
             identifier: UISheetPresentationController.Detent.Identifier("smallDetent"),
             resolver: { _ in
-                return 200 - self.view.safeAreaInsets.bottom
+                return 150 - self.view.safeAreaInsets.bottom
             }
         )
 
@@ -127,9 +133,8 @@ class DetailViewController: UIViewController {
             sheet.largestUndimmedDetentIdentifier = UISheetPresentationController.Detent.Identifier("largeDetent")
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         }
-
-        // Present the navigation controller modally
-        navigationController?.present(navVC, animated: true)
+        
+        self.navigationController?.present(navVC, animated: true)
     }
 
     // MARK: - UI Setup
@@ -221,13 +226,133 @@ class DetailViewController: UIViewController {
     
     // MARK: - Selectors
     @objc private func goBack() {
-        navigationController?.popViewController(animated: true)
-        self.dismiss(animated: false, completion: nil)
-
+        
+        let transition = CATransition()
+        transition.duration = 0.33
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        transition.type = .push
+        transition.subtype = .fromBottom
+        navigationController?.view.layer.add(transition, forKey: kCATransition)
+        
+        self.dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: false)
     }
+}
+
+
+
+class CustomModalAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    let duration: TimeInterval
+
+    init(duration: TimeInterval) {
+        self.duration = duration
+    }
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return duration
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let toView = transitionContext.view(forKey: .to) else {
+            transitionContext.completeTransition(false)
+            return
+        }
+
+        let containerView = transitionContext.containerView
+        toView.alpha = 0
+        containerView.addSubview(toView)
+
+        UIView.animate(withDuration: duration, animations: {
+            toView.alpha = 1
+        }) { finished in
+            transitionContext.completeTransition(finished)
+        }
+    }
+}
+
+class CustomTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
+    let duration: TimeInterval
+
+    init(duration: TimeInterval) {
+        self.duration = duration
+    }
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return CustomModalAnimator(duration: duration)
+    }
+}
+
+
+
+class CustomBottomSheetViewController: UIViewController {
+
+    private let detents: [CGFloat] = [100, 500] // Detents in points
+    private var currentDetentIndex = 0
     
-//    private func closeSheet() {
-//        // Dismiss the presented navigation controller
-//        self.presentingViewController?.dismiss(animated: true, completion: nil)
-//    }
+    private lazy var sheetView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemRed
+//        view.layer.cornerRadius = 16
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.clipsToBounds = true
+        return view
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+    }
+
+    private func setupUI() {
+        // Add the sheet view
+        view.addSubview(sheetView)
+        sheetView.frame = CGRect(x: 0, y: view.bounds.height, width: view.bounds.width, height: detents.max() ?? 500)
+        
+        // Add a pan gesture recognizer for dragging the sheet
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        sheetView.addGestureRecognizer(panGesture)
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // Position the sheet at the initial detent
+        updateSheetPosition(animated: false)
+    }
+
+    @objc private func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+        let velocity = gesture.velocity(in: view)
+        
+        switch gesture.state {
+        case .changed:
+            let newY = max(sheetView.frame.origin.y + translation.y, view.bounds.height - (detents.max() ?? 500))
+            sheetView.frame.origin.y = newY
+            gesture.setTranslation(.zero, in: view)
+        case .ended:
+            let targetIndex: Int
+            if velocity.y > 0 {
+                // Moving downward: Snap to the next detent
+                targetIndex = max(currentDetentIndex - 1, 0)
+            } else {
+                // Moving upward: Snap to the previous detent
+                targetIndex = min(currentDetentIndex + 1, detents.count - 1)
+
+            }
+            currentDetentIndex = targetIndex
+            updateSheetPosition(animated: true)
+        default:
+            break
+        }
+    }
+
+    private func updateSheetPosition(animated: Bool) {
+        let targetY = view.bounds.height - detents[currentDetentIndex]
+        if animated {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: [.curveEaseOut]) {
+                self.sheetView.frame.origin.y = targetY
+            }
+        } else {
+            sheetView.frame.origin.y = targetY
+        }
+    }
 }

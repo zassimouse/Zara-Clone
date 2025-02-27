@@ -7,29 +7,29 @@
 
 import UIKit
 
-class Search1ViewController: UIViewController {
+protocol ItemsViewControllerDelegate: AnyObject {
+    func pushDetailViewController()
+}
+
+
+class ItemsViewController: UIViewController {
 
 
     // MARK: - Variables
+    weak var delegate: ItemsViewControllerDelegate?
     private var items: [Item] = []
-        
-    // MARK: - UI Components
     
+    // MARK: - UI Components
     private let collectionView: UICollectionView = {
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         cv.backgroundColor = .systemBackground
-        
         cv.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.identifier)
-        
         cv.alwaysBounceVertical = true
         
         return cv
-        
     }()
     
     // MARK: - LifeCycle
@@ -40,8 +40,7 @@ class Search1ViewController: UIViewController {
         collectionView.dataSource = self
         
         fetchData()
-        self.setupUI()
-                
+        setupUI()
     }
     
     public func configure(with items: [Item]) {
@@ -83,7 +82,7 @@ class Search1ViewController: UIViewController {
     }
 }
 
-extension Search1ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ItemsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // How many different CollectionViewCells we have
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,37 +108,39 @@ extension Search1ViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-extension Search1ViewController {
-    
+extension ItemsViewController {
     // Cell Size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let size = (self.view.frame.width / 2) - 4
         return CGSize(width: size, height: size * 1.5 + 36)
     }
+    
     // Vertical Spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 18
     }
+    
     // Horizontal Spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 4
     }
     
-
-    
     // TODO: InsetForSectionAt 21:40
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = DetailViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.configure(with: items[indexPath.row])
-        let nvc = UINavigationController(rootViewController: vc)        
-
-        navigationController?.pushViewController(vc, animated: true)
+        delegate?.pushDetailViewController()
+//        let vc = DetailViewController()
+//        vc.modalPresentationStyle = .fullScreen
+////        vc.configure(with: items[indexPath.row])
+//        let nvc = UINavigationController(rootViewController: vc)
+//        
+//        let transition = CATransition()
+//        transition.duration = 0.33
+//        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+//        transition.type = .moveIn
+//        transition.subtype = .fromTop
+//        navigationController?.view.layer.add(transition, forKey: kCATransition)
+//        navigationController?.pushViewController(vc, animated: false)
     }
-    
 }
-
-
-

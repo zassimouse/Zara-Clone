@@ -9,8 +9,9 @@ import Foundation
 import UIKit
 
 class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
-    private let customTabBar = CustomTabBar()
     
+    private let customTabBar = CustomTabBar()
+    var navHeigth: CGFloat?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -19,12 +20,28 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         view.backgroundColor = .systemBackground
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navHeigth = self.navigationController?.navigationBar.frame.maxY
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     private func setupTabItems() {
-        let vc1 = UINavigationController(rootViewController: GalleryViewController())
+        let itemsViewController = ItemsViewController()
+        itemsViewController.delegate = self
+        
+        let vc1 = GalleryViewController()
         let vc2 = UINavigationController(rootViewController: SearchViewController())
         let vc3 = UINavigationController(rootViewController: MenuViewController())
         let vc4 = UINavigationController(rootViewController: TopTabBarController())
-        let vc5 = UINavigationController(rootViewController: Search1ViewController())
+        let vc5 = UINavigationController(rootViewController: itemsViewController)
+        
+    
         
         vc1.tabBarItem.image = UIImage(named: "homeIcon")
         vc2.tabBarItem.image = UIImage(named: "searchIcon")
@@ -43,7 +60,25 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if let index = tabBarController.viewControllers?.firstIndex(of: viewController) {
-            customTabBar.moveIndicator(to: index)
+            customTabBar.currentIndex = index
         }
+    }
+}
+
+extension CustomTabBarController: ItemsViewControllerDelegate {
+    func pushDetailViewController() {
+        let vc = DetailViewController()
+        vc.navHeight = navHeigth ?? 0
+        vc.modalPresentationStyle = .fullScreen
+//        vc.configure(with: items[indexPath.row])
+        let nvc = UINavigationController(rootViewController: vc)
+        
+        let transition = CATransition()
+        transition.duration = 0.33
+        transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        transition.type = .moveIn
+        transition.subtype = .fromTop
+        navigationController?.view.layer.add(transition, forKey: kCATransition)
+        navigationController?.pushViewController(vc, animated: false)
     }
 }

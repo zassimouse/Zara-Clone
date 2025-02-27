@@ -11,7 +11,7 @@ class IconButton: UIButton {
     
     enum ButtonType: String {
         case back = "arrow.left"
-        case share = "square.and.arrow.up"
+        case share = "shareIcon"
         case bookmark = "bookmark"
         case exit = "xmark"
         case minus = "minus"
@@ -21,12 +21,16 @@ class IconButton: UIButton {
     init(buttonType: ButtonType) {
         super.init(frame: .zero)
         
-        self.setImage(UIImage(systemName: buttonType.rawValue), for: .normal)
+        if buttonType == .share {
+            
+        } else {
+            self.setImage(UIImage(systemName: buttonType.rawValue), for: .normal)
+        }
         self.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(font: .deleteButtonFont), forImageIn: .normal)
         self.backgroundColor = .clear
         self.tintColor = .label
         
-        self.translatesAutoresizingMaskIntoConstraints = false
+//        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
